@@ -1,9 +1,7 @@
 ##pand-project
 ##Author JP Quinn
 
-
-from re import S
-from tkinter import W
+from itertools import groupby
 import numpy as np
 from  matplotlib import pyplot as plt
 import pandas as pd
@@ -25,32 +23,56 @@ with open('variables.txt','w') as f:
     f.writelines(s)
     f.close()
 
-col = ['sepal_length','sepal_width','petal_length','petal_width','species']
-idata = pd.read_csv('iris.csv', names=col)
+col = ['sepal_length','sepal_width','petal_length','petal_width','species'] ## data has no column names so adding ala https://www.adamsmith.haus/python/answers/how-to-set-column-names-when-importing-a-csv-into-a-pandas-dataframe-in-python
+iris = pd.read_csv('iris.csv', names=col)
 
+versicolor = iris[iris['species'] == 'Iris-versicolor']
+setosa = iris[iris['species'] == 'Iris-setosa']
+virginica = iris[iris['species'] == 'Iris-virginica']
 
-spl = list(idata[['sepal_length']])
-spw = list(idata[['sepal_width']])
-pl = list(idata[['petal_length']])
-pw = list(idata[['petal_width']])
+fig, ax = plt.subplots()
+points = ax.scatter(versicolor['petal_length'], versicolor['petal_width'], label='Versicolor')
+points.set_facecolor('purple')
+ax.scatter(setosa['petal_length'], setosa['petal_width'], label='Setosa', facecolor='blue')
+ax.scatter(virginica['petal_length'], virginica['petal_width'], label='Virginica', facecolor='red')
 
-w = np.array(idata[spl])
-x = np.array(idata[spw])
-y = np.array(idata[pl])
-z = np.array(idata[pw])
-
-plt.hist(w)
+ax.set_xlabel('Petal Length (cm)')
+ax.set_ylabel('Petal Width (cm)')
+ax.set_title('Iris Petal Sizes')
+ax.legend()
+plt.grid()
 plt.show()
 
-plt.hist(x)
+sl = iris['sepal_length'].tolist()
+sw = iris['sepal_width'].tolist()
+pl = iris['petal_length'].tolist()
+pw = iris['petal_width'].tolist()
+c = iris['species'].tolist()
+
+df = iris[iris.species == 'Iris-versicolor'] ##https://cmdlinetips.com/2019/02/how-to-make-histogram-in-python-with-pandas-and-seaborn
+sns.distplot(df['sepal_length'],  kde=False, label='Versicolor')
+df = iris[iris.species == 'Iris-setosa']
+sns.distplot(df['sepal_length'],  kde=False, label='Setosa')
+df = iris[iris.species == 'Iris-virginica']
+sns.distplot(df['sepal_length'],  kde=False, label='Virginica')
+plt.legend(prop={'size': 12})
+plt.title('Sepal length by species')
+plt.grid()
 plt.show()
 
-plt.hist(y)
+
+
+##sns.FacetGrid(iris,hue='species',size=3).map(sns.distplot,'petal_length').add_legend()
+##plt.show()
+
+sns.violinplot(x='species',y='petal_length',data=iris)
 plt.show()
 
-plt.hist(z)
-plt.show()
 
-
-
+##sns.set_style('whitegrid')
+##iris = sns.load_dataset('iris')
+##sns.lmplot( x="petal_length" , y="petal_width" , data=iris, fit_reg=False, hue='species' , legend=False)
+##plt.legend(loc='lower right')
+##plt.savefig('scatter.png')   ##savefig code found on https://www.marsja.se/how-to-save-a-seaborn-plot-as-a-file-e-g-png-pdf-eps-tiff/
+##plt.show()
 
