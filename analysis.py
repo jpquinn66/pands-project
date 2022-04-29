@@ -47,7 +47,7 @@ ax.set_ylabel('Petal Width (cm)')
 ax.set_title('Iris Petal Sizes')
 ax.legend()
 plt.grid()
-plt.savefig('scatter petal.png')  ##savefig code found on https://www.marsja.se/how-to-save-a-seaborn-plot-as-a-file-e-g-png-pdf-eps-tiff/
+plt.savefig('scatterpetal.png')  ##savefig code found on https://www.marsja.se/how-to-save-a-seaborn-plot-as-a-file-e-g-png-pdf-eps-tiff/
 plt.show()
 
 fig, ax = plt.subplots()
@@ -61,7 +61,7 @@ ax.set_ylabel('Sepal Width (cm)')
 ax.set_title('Iris Sepal Sizes')
 ax.legend()
 plt.grid()
-plt.savefig('scatter sepal.png')
+plt.savefig('scattersepal.png')
 plt.show()
 
 
